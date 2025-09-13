@@ -6,56 +6,246 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { Card, CardHeader, CardContent } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 import { toast } from '@/hooks/use-toast';
-import { ArrowLeft, Timer, Upload, Eye, EyeOff, Calendar } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Timer, Eye, EyeOff, Send, Upload } from 'lucide-react';
 
 const CreateTimebomb = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   
+  const [currentStep, setCurrentStep] = useState(1);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isPublic, setIsPublic] = useState(true);
-  const [delayHours, setDelayHours] = useState('1');
   const [previewText, setPreviewText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const totalSteps = 4;
+  const progress = (currentStep / totalSteps) * 100;
+
+  const handleNext = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleSubmit = async () => {
     setIsSubmitting(true);
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1500));
     
     toast({
-      title: "Timebomb Created! 💣",
-      description: `Your timebomb will unlock in ${delayHours} hour${delayHours !== '1' ? 's' : ''}.`,
+      title: "Post Created! 🎉",
+      description: "Your timebomb is now live in the feed.",
     });
     
     setIsSubmitting(false);
     navigate('/home');
   };
 
-  const delayOptions = [
-    { value: '0.1', label: '5 minutes' },
-    { value: '0.5', label: '30 minutes' },
-    { value: '1', label: '1 hour' },
-    { value: '2', label: '2 hours' },
-    { value: '6', label: '6 hours' },
-    { value: '12', label: '12 hours' },
-    { value: '24', label: '1 day' },
-    { value: '72', label: '3 days' },
-    { value: '168', label: '1 week' },
-  ];
+  const canProceed = () => {
+    switch (currentStep) {
+      case 1:
+        return title.trim().length > 0;
+      case 2:
+        return content.trim().length > 0;
+      case 3:
+        return true; // Media step is optional
+      case 4:
+        return true; // Privacy step always valid
+      default:
+        return false;
+    }
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <Timer className="h-12 w-12 text-primary mx-auto" />
+              <h2 className="text-2xl font-bold">What's your story?</h2>
+              <p className="text-muted-foreground">Give your post a catchy title</p>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="title">Title</Label>
+              <Input
+                id="title"
+                placeholder="Something interesting is happening..."
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                maxLength={100}
+                className="bg-surface border-border focus:ring-primary text-lg py-6"
+                autoFocus
+              />
+              <p className="text-xs text-muted-foreground text-right">
+                {title.length}/100 characters
+              </p>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="preview">Preview Text (Optional)</Label>
+              <Input
+                id="preview"
+                placeholder="A teaser for your followers..."
+                value={previewText}
+                onChange={(e) => setPreviewText(e.target.value)}
+                maxLength={150}
+                className="bg-surface border-border focus:ring-primary"
+              />
+              <p className="text-xs text-muted-foreground">
+                This appears as a preview before people read your full post
+              </p>
+            </div>
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                <span className="text-primary text-xl">✍️</span>
+              </div>
+              <h2 className="text-2xl font-bold">Write your content</h2>
+              <p className="text-muted-foreground">Share what's on your mind</p>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="content">Your Post</Label>
+              <Textarea
+                id="content"
+                placeholder="Tell your story here..."
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                rows={8}
+                maxLength={1000}
+                className="bg-surface border-border focus:ring-primary resize-none text-base"
+                autoFocus
+              />
+              <p className="text-xs text-muted-foreground text-right">
+                {content.length}/1000 characters
+              </p>
+            </div>
+          </div>
+        );
+
+      case 3:
+        return (
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <Upload className="h-12 w-12 text-primary mx-auto" />
+              <h2 className="text-2xl font-bold">Add media</h2>
+              <p className="text-muted-foreground">Make your post more engaging (coming soon)</p>
+            </div>
+            
+            <div className="border-2 border-dashed border-border rounded-lg p-12 bg-surface/20">
+              <div className="text-center">
+                <Upload className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <h3 className="font-medium text-foreground mb-2">Media Upload</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Image and video uploads will be available in a future update
+                </p>
+                <Button variant="outline" disabled className="border-border">
+                  Browse Files
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="space-y-6">
+            <div className="text-center space-y-2">
+              <div className="h-12 w-12 bg-secondary/10 rounded-full flex items-center justify-center mx-auto">
+                {isPublic ? (
+                  <Eye className="h-6 w-6 text-secondary" />
+                ) : (
+                  <EyeOff className="h-6 w-6 text-warning" />
+                )}
+              </div>
+              <h2 className="text-2xl font-bold">Who can see this?</h2>
+              <p className="text-muted-foreground">Choose your audience</p>
+            </div>
+            
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-6 bg-surface rounded-lg border border-border">
+                <div className="flex items-center space-x-4">
+                  {isPublic ? (
+                    <Eye className="h-6 w-6 text-secondary" />
+                  ) : (
+                    <EyeOff className="h-6 w-6 text-warning" />
+                  )}
+                  <div>
+                    <p className="font-medium text-lg">
+                      {isPublic ? 'Public Post' : 'Followers Only'}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {isPublic 
+                        ? 'Everyone can see this in the For You feed'
+                        : 'Only your followers can see this post'
+                      }
+                    </p>
+                  </div>
+                </div>
+                <Switch
+                  checked={isPublic}
+                  onCheckedChange={setIsPublic}
+                  className="scale-125"
+                />
+              </div>
+            </div>
+
+            {/* Preview */}
+            <div className="bg-surface/30 rounded-lg p-4 border border-border">
+              <h4 className="font-medium mb-3 text-center">Preview</h4>
+              <div className="bg-card rounded-lg p-4 border border-border">
+                <div className="flex items-center space-x-3 mb-3">
+                  <div className="h-8 w-8 bg-primary rounded-full flex items-center justify-center">
+                    <span className="text-xs font-bold text-primary-foreground">
+                      {user?.username.slice(0, 2).toUpperCase()}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="font-medium text-sm">{user?.username}</p>
+                    <p className="text-xs text-muted-foreground">now</p>
+                  </div>
+                </div>
+                <h3 className="font-semibold mb-2">{title || 'Your title here'}</h3>
+                {previewText && (
+                  <p className="text-sm text-muted-foreground italic mb-2">{previewText}</p>
+                )}
+                <div className="bg-surface/50 rounded p-3 text-sm">
+                  {content || 'Your content will appear here...'}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-background/80 backdrop-blur-glass">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-between">
             <Button
               variant="outline"
               onClick={() => navigate('/home')}
@@ -63,9 +253,12 @@ const CreateTimebomb = () => {
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <div className="flex items-center space-x-3">
-              <Timer className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-semibold">Create Timebomb</h1>
+            
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-muted-foreground">
+                Step {currentStep} of {totalSteps}
+              </span>
+              <Progress value={progress} className="w-24" />
             </div>
           </div>
         </div>
@@ -73,171 +266,53 @@ const CreateTimebomb = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-2xl">
-        <div className="space-y-6">
-          {/* Info Card */}
-          <Card className="bg-primary/5 border-primary/20">
-            <CardContent className="pt-6">
-              <div className="flex items-start space-x-3">
-                <Timer className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="font-medium text-primary mb-1">What's a Timebomb?</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Create content that unlocks after a set time. Perfect for announcements, 
-                    surprises, or building anticipation with your audience.
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Creation Form */}
-          <Card className="bg-card border-border shadow-card">
-            <CardHeader>
-              <h2 className="text-lg font-semibold">Timebomb Details</h2>
-              <p className="text-sm text-muted-foreground">
-                Fill in the details for your time-locked content.
-              </p>
-            </CardHeader>
+        <Card className="bg-card border-border shadow-card">
+          <CardContent className="p-8">
+            {renderStep()}
             
-            <form onSubmit={handleSubmit}>
-              <CardContent className="space-y-6">
-                {/* Title */}
-                <div className="space-y-2">
-                  <Label htmlFor="title">Title</Label>
-                  <Input
-                    id="title"
-                    placeholder="Give your timebomb an intriguing title..."
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                    maxLength={100}
-                    className="bg-surface border-border focus:ring-primary"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    {title.length}/100 characters
-                  </p>
-                </div>
-
-                {/* Preview Text */}
-                <div className="space-y-2">
-                  <Label htmlFor="preview">Preview Text (Optional)</Label>
-                  <Input
-                    id="preview"
-                    placeholder="A teaser for what's locked inside..."
-                    value={previewText}
-                    onChange={(e) => setPreviewText(e.target.value)}
-                    maxLength={150}
-                    className="bg-surface border-border focus:ring-primary"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    This text will be visible before the timebomb unlocks
-                  </p>
-                </div>
-
-                {/* Content */}
-                <div className="space-y-2">
-                  <Label htmlFor="content">Content</Label>
-                  <Textarea
-                    id="content"
-                    placeholder="Write your time-locked message here..."
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    required
-                    rows={6}
-                    maxLength={1000}
-                    className="bg-surface border-border focus:ring-primary resize-none"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    {content.length}/1000 characters
-                  </p>
-                </div>
-
-                {/* Media Upload Placeholder */}
-                <div className="space-y-2">
-                  <Label>Media (Coming Soon)</Label>
-                  <div className="border-2 border-dashed border-border rounded-lg p-8 bg-surface/30">
-                    <div className="text-center">
-                      <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-sm text-muted-foreground">
-                        Image and video uploads will be available soon
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Timer Settings */}
-                <div className="space-y-2">
-                  <Label htmlFor="delay">Unlock Timer</Label>
-                  <Select value={delayHours} onValueChange={setDelayHours}>
-                    <SelectTrigger className="bg-surface border-border">
-                      <SelectValue placeholder="Select unlock time" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {delayOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          <div className="flex items-center space-x-2">
-                            <Calendar className="h-4 w-4" />
-                            <span>{option.label}</span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {/* Privacy Settings */}
-                <div className="space-y-4">
-                  <Label>Privacy Settings</Label>
-                  <div className="flex items-center justify-between p-4 bg-surface rounded-lg border border-border">
-                    <div className="flex items-center space-x-3">
-                      {isPublic ? (
-                        <Eye className="h-5 w-5 text-secondary" />
-                      ) : (
-                        <EyeOff className="h-5 w-5 text-warning" />
-                      )}
-                      <div>
-                        <p className="font-medium">
-                          {isPublic ? 'Public Timebomb' : 'Private Timebomb'}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          {isPublic 
-                            ? 'Visible to everyone in the public feed'
-                            : 'Only visible to your friends'
-                          }
-                        </p>
-                      </div>
-                    </div>
-                    <Switch
-                      checked={isPublic}
-                      onCheckedChange={setIsPublic}
-                    />
-                  </div>
-                </div>
-
-                {/* Submit Button */}
-                <div className="pt-4">
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting || !title.trim() || !content.trim()}
-                    className="w-full bg-gradle-primary text-primary-foreground hover:opacity-90 shadow-glow"
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center space-x-2">
-                        <Timer className="h-4 w-4 animate-spin" />
-                        <span>Creating Timebomb...</span>
-                      </span>
-                    ) : (
-                      <span className="flex items-center space-x-2">
-                        <Timer className="h-4 w-4" />
-                        <span>Launch Timebomb</span>
-                      </span>
-                    )}
-                  </Button>
-                </div>
-              </CardContent>
-            </form>
-          </Card>
-        </div>
+            {/* Navigation */}
+            <div className="flex justify-between pt-8 border-t border-border mt-8">
+              <Button
+                variant="outline"
+                onClick={handlePrev}
+                disabled={currentStep === 1}
+                className="border-border hover:bg-surface-hover"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back
+              </Button>
+              
+              {currentStep < totalSteps ? (
+                <Button
+                  onClick={handleNext}
+                  disabled={!canProceed()}
+                  className="bg-gradle-primary text-primary-foreground hover:opacity-90"
+                >
+                  Next
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting || !canProceed()}
+                  className="bg-gradle-primary text-primary-foreground hover:opacity-90"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center space-x-2">
+                      <Timer className="h-4 w-4 animate-spin" />
+                      <span>Publishing...</span>
+                    </span>
+                  ) : (
+                    <span className="flex items-center space-x-2">
+                      <Send className="h-4 w-4" />
+                      <span>Publish</span>
+                    </span>
+                  )}
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );

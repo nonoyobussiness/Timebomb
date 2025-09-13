@@ -11,9 +11,7 @@ export interface Timebomb {
   content: string;
   author: User;
   createdAt: Date;
-  unlockAt: Date;
   isPublic: boolean;
-  isUnlocked: boolean;
   media?: {
     type: 'image' | 'video';
     url: string;

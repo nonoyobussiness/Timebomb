@@ -20,19 +20,19 @@
     --card-foreground: 220 15% 95%;
     --card-elevated: 220 15% 16%;
     
-    /* Electric Brand Colors */
-    --primary: 270 100% 70%;
+    /* Simple Brand Colors */
+    --primary: 220 15% 85%;
     --primary-foreground: 220 15% 8%;
-    --primary-glow: 270 100% 80%;
+    --primary-glow: 220 15% 90%;
     
-    --secondary: 190 100% 50%;
-    --secondary-foreground: 220 15% 8%;
-    --secondary-glow: 190 100% 60%;
+    --secondary: 0 70% 55%;
+    --secondary-foreground: 220 15% 95%;
+    --secondary-glow: 0 70% 65%;
     
     /* Accent System */
-    --accent: 270 100% 70%;
+    --accent: 220 15% 75%;
     --accent-foreground: 220 15% 8%;
-    --accent-subtle: 270 30% 25%;
+    --accent-subtle: 220 15% 25%;
     
     /* Semantic Colors */
     --success: 140 70% 50%;
@@ -50,18 +50,18 @@
     /* Interactive States */
     --border: 220 15% 20%;
     --input: 220 15% 16%;
-    --ring: 270 100% 70%;
+    --ring: 220 15% 75%;
     
     /* Gradients */
-    --gradle-primary: linear-gradient(135deg, hsl(270 100% 70%), hsl(190 100% 50%));
+    --gradle-primary: linear-gradient(135deg, hsl(220 15% 85%), hsl(0 70% 55%));
     --gradle-subtle: linear-gradient(180deg, hsl(220 15% 16%), hsl(220 15% 12%));
-    --gradle-glow: linear-gradient(135deg, hsl(270 100% 70% / 0.2), hsl(190 100% 50% / 0.2));
+    --gradle-glow: linear-gradient(135deg, hsl(220 15% 85% / 0.2), hsl(0 70% 55% / 0.2));
     
     /* Shadows & Effects */
     --shadow-card: 0 4px 20px hsl(220 15% 5% / 0.3);
     --shadow-elevated: 0 8px 40px hsl(220 15% 5% / 0.4);
-    --shadow-glow: 0 0 40px hsl(270 100% 70% / 0.3);
-    --shadow-glow-secondary: 0 0 40px hsl(190 100% 50% / 0.3);
+    --shadow-glow: 0 0 20px hsl(220 15% 85% / 0.2);
+    --shadow-glow-secondary: 0 0 20px hsl(0 70% 55% / 0.2);
     
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
