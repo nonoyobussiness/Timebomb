@@ -2,79 +2,101 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Timebomb App Design System - Dark theme with electric accents */
+/* Timebomb App Design System - Modern & Playful */
 
 @layer base {
   :root {
-    /* Core App Theme - Dark Mode Primary */
-    --background: 220 15% 8%;
-    --foreground: 220 15% 95%;
+    /* Core App Theme - Clean & Minimal */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 9%;
     
     /* Surface Colors */
-    --surface: 220 15% 12%;
-    --surface-elevated: 220 15% 16%;
-    --surface-hover: 220 15% 20%;
+    --surface: 0 0% 98%;
+    --surface-elevated: 0 0% 96%;
+    --surface-hover: 0 0% 94%;
     
     /* Card System */
-    --card: 220 15% 12%;
-    --card-foreground: 220 15% 95%;
-    --card-elevated: 220 15% 16%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+    --card-elevated: 0 0% 98%;
     
-    /* Simple Brand Colors */
-    --primary: 220 15% 85%;
-    --primary-foreground: 220 15% 8%;
-    --primary-glow: 220 15% 90%;
+    /* Timebomb Brand Colors - Red Based */
+    --primary: 0 66% 54%;           /* #DB3C3C */
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 0 66% 64%;
     
-    --secondary: 0 70% 55%;
-    --secondary-foreground: 220 15% 95%;
-    --secondary-glow: 0 70% 65%;
+    --secondary: 25 100% 50%;       /* Orange accent */
+    --secondary-foreground: 0 0% 100%;
+    --secondary-glow: 25 100% 60%;
+    
+    --tertiary: 45 100% 50%;        /* Yellow accent */
+    --tertiary-foreground: 0 0% 9%;
+    --tertiary-glow: 45 100% 60%;
     
     /* Accent System */
-    --accent: 220 15% 75%;
-    --accent-foreground: 220 15% 8%;
-    --accent-subtle: 220 15% 25%;
+    --accent: 0 66% 54%;
+    --accent-foreground: 0 0% 100%;
+    --accent-subtle: 0 66% 95%;
     
     /* Semantic Colors */
-    --success: 140 70% 50%;
-    --success-foreground: 220 15% 8%;
-    --warning: 45 100% 60%;
-    --warning-foreground: 220 15% 8%;
-    --destructive: 0 85% 60%;
-    --destructive-foreground: 220 15% 95%;
+    --success: 120 50% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 45 100% 50%;
+    --warning-foreground: 0 0% 9%;
+    --destructive: 0 66% 54%;
+    --destructive-foreground: 0 0% 100%;
     
     /* Muted & Text */
-    --muted: 220 15% 20%;
-    --muted-foreground: 220 15% 65%;
-    --text-dim: 220 15% 55%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --text-dim: 0 0% 60%;
     
     /* Interactive States */
-    --border: 220 15% 20%;
-    --input: 220 15% 16%;
-    --ring: 220 15% 75%;
+    --border: 0 0% 90%;
+    --input: 0 0% 96%;
+    --ring: 0 66% 54%;
     
-    /* Gradients */
-    --gradle-primary: linear-gradient(135deg, hsl(220 15% 85%), hsl(0 70% 55%));
-    --gradle-subtle: linear-gradient(180deg, hsl(220 15% 16%), hsl(220 15% 12%));
-    --gradle-glow: linear-gradient(135deg, hsl(220 15% 85% / 0.2), hsl(0 70% 55% / 0.2));
+    /* Playful Gradients - Red to Orange to Yellow */
+    --gradient-timebomb: linear-gradient(135deg, hsl(0 66% 54%), hsl(25 100% 50%), hsl(45 100% 50%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 98%), hsl(0 0% 96%));
+    --gradient-glow: linear-gradient(135deg, hsl(0 66% 54% / 0.1), hsl(45 100% 50% / 0.1));
     
-    /* Shadows & Effects */
-    --shadow-card: 0 4px 20px hsl(220 15% 5% / 0.3);
-    --shadow-elevated: 0 8px 40px hsl(220 15% 5% / 0.4);
-    --shadow-glow: 0 0 20px hsl(220 15% 85% / 0.2);
-    --shadow-glow-secondary: 0 0 20px hsl(0 70% 55% / 0.2);
+    /* Modern Shadows */
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.1), 0 1px 2px hsl(0 0% 0% / 0.06);
+    --shadow-elevated: 0 4px 6px hsl(0 0% 0% / 0.07), 0 2px 4px hsl(0 0% 0% / 0.06);
+    --shadow-glow: 0 0 20px hsl(0 66% 54% / 0.3);
+    --shadow-glow-soft: 0 0 40px hsl(0 66% 54% / 0.1);
     
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Smooth Animations */
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     
     /* Layout */
-    --radius: 0.75rem;
-    --radius-lg: 1rem;
+    --radius: 0.5rem;
+    --radius-lg: 0.75rem;
     --radius-full: 9999px;
     
     /* Popover */
-    --popover: 220 15% 16%;
-    --popover-foreground: 220 15% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+  }
+  
+  /* Dark mode support */
+  .dark {
+    --background: 0 0% 9%;
+    --foreground: 0 0% 98%;
+    --surface: 0 0% 12%;
+    --surface-elevated: 0 0% 16%;
+    --surface-hover: 0 0% 20%;
+    --card: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 65%;
+    --border: 0 0% 20%;
+    --input: 0 0% 16%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 98%;
   }
 }
 
@@ -108,52 +130,110 @@
 }
 
 @layer components {
-  /* Gradient Text Effects */
-  .text-gradle {
-    background: var(--gradle-primary);
+  /* Timebomb Gradient Text */
+  .text-gradient-timebomb {
+    background: var(--gradient-timebomb);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
   
-  /* Glow Effects */
-  .glow-primary {
+  /* Playful Button Effects */
+  .btn-timebomb {
+    background: var(--gradient-timebomb);
+    transition: var(--transition-spring);
+    box-shadow: var(--shadow-card);
+  }
+  
+  .btn-timebomb:hover {
+    transform: translateY(-1px) scale(1.02);
     box-shadow: var(--shadow-glow);
   }
   
-  .glow-secondary {
-    box-shadow: var(--shadow-glow-secondary);
+  .btn-timebomb:active {
+    transform: translateY(0) scale(0.98);
   }
   
-  /* Interactive Animations */
-  .hover-lift {
-    transition: var(--transition-smooth);
+  /* Hourglass Loading Animation */
+  .hourglass-spin {
+    animation: hourglass-rotate 2s linear infinite;
   }
   
-  .hover-lift:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-elevated);
+  @keyframes hourglass-rotate {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(180deg); }
+    100% { transform: rotate(360deg); }
   }
   
-  /* Timer Ring Animation */
-  .timer-ring {
-    animation: timer-pulse 2s ease-in-out infinite;
+  /* Spark Effect Animation */
+  .spark-effect {
+    animation: spark-burst 0.6s ease-out;
   }
   
-  @keyframes timer-pulse {
-    0%, 100% {
+  @keyframes spark-burst {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 1;
+    }
+    100% {
       transform: scale(1);
       opacity: 1;
     }
+  }
+  
+  /* Smooth Bounce Animation */
+  .bounce-in {
+    animation: bounce-in 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  }
+  
+  @keyframes bounce-in {
+    0% {
+      transform: scale(0.3);
+      opacity: 0;
+    }
     50% {
       transform: scale(1.05);
-      opacity: 0.8;
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
     }
   }
   
-  /* Backdrop blur */
+  /* Floating Animation */
+  .float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  /* Backdrop Effects */
   .backdrop-blur-glass {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+  
+  /* Card Hover Effects */
+  .card-hover {
+    transition: var(--transition-smooth);
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-elevated);
   }
 }

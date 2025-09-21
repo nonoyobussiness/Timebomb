@@ -27,7 +27,7 @@ export default {
           hover: "hsl(var(--surface-hover))",
         },
         
-        // Brand colors
+        // Timebomb Brand Colors
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -37,6 +37,11 @@ export default {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
           glow: "hsl(var(--secondary-glow))",
+        },
+        tertiary: {
+          DEFAULT: "hsl(var(--tertiary))",
+          foreground: "hsl(var(--tertiary-foreground))",
+          glow: "hsl(var(--tertiary-glow))",
         },
         
         // Semantic colors
@@ -95,9 +100,9 @@ export default {
       },
       
       backgroundImage: {
-        "gradle-primary": "var(--gradle-primary)",
-        "gradle-subtle": "var(--gradle-subtle)",
-        "gradle-glow": "var(--gradle-glow)",
+        "gradient-timebomb": "var(--gradient-timebomb)",
+        "gradient-subtle": "var(--gradient-subtle)",
+        "gradient-glow": "var(--gradient-glow)",
       },
       
       transitionTimingFunction: {
