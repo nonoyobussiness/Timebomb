@@ -1,73 +1,59 @@
-# Welcome to your Lovable project
+# ⏳ Timebomb – Time-Locked Social Content  
 
-## Project info
+**Timebomb** is a new kind of social platform where content isn’t instant—it’s locked behind time.  
+You drop a **timebomb post** and set when it explodes: minutes, hours, days… or even years later. Until then, everyone waits. Curiosity builds. Anticipation grows.  
 
-**URL**: https://lovable.dev/projects/5adab266-a3a3-4f26-90c9-213517fbe9da
+---
 
-## How can I edit this code?
+## ✨ Features  
 
-There are several ways of editing your application.
+- **💣 Time-Locked Posts** – Share messages, photos, or videos that unlock only after the timer runs out.  
+- **⏰ Flexible Timing** – From 5 minutes to 5 years—set the suspense however you want.  
+- **👥 Friends & Following** – Build your circle and see what your people are dropping.  
+- **📬 Messenger** – Send private bombs directly to friends.  
+- **☕ Gossip Mode** – A safe space to spill the tea or share anonymous whispers.  
+- **🙋 Profiles** – Show off your photo, bio, join date, bombs dropped, and bombs unlocked.  
+- **🔎 Search** – Find friends, trending bombs, or discover new creators.  
+- **🎨 Modern UI** – Doodle-style animations, sleek gradients, and an hourglass logo.  
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/5adab266-a3a3-4f26-90c9-213517fbe9da) and start prompting.
+## 🚀 Why Timebomb?  
 
-Changes made via Lovable will be committed automatically to this repo.
+Social media is noisy and instant. **Timebomb is slow, deliberate, suspenseful.**  
+It makes people **wait**—and that waiting creates excitement.  
 
-**Use your preferred IDE**
+Perfect for:  
+- Announcements  
+- Surprises  
+- Challenges  
+- Secrets  
+- Inside jokes with friends  
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠️ Tech Stack  
 
-Follow these steps:
+- ⚛️ **React + TypeScript** (frontend)  
+- 🎨 **TailwindCSS + shadcn/ui** (UI components)  
+- 🖼️ **Lucide Icons** (beautiful open-source icons)  
+- ⚡ Planned backend: Node.js + PostgreSQL (scalable + real-time ready)  
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 📌 Roadmap  
 
-# Step 3: Install the necessary dependencies.
-npm i
+- [ ] Core timebomb posting system  
+- [ ] Profiles with stats & history  
+- [ ] Friends + Following system  
+- [ ] Direct messages (private bombs)  
+- [ ] Gossip/Anonymous mode  
+- [ ] Demo landing page with animations  
+- [ ] Mobile-first optimizations  
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📖 License  
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/5adab266-a3a3-4f26-90c9-213517fbe9da) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT License © 2025 Timebomb
