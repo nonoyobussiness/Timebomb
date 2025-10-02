@@ -9,6 +9,7 @@ import TimebombCard from '@/components/TimebombCard';
 import { getUserTimebombs } from '@/data/mockData';
 import { ArrowLeft, Settings, Timer, Zap, Calendar, Activity, Bookmark, Edit3 } from 'lucide-react';
 
+
 const Profile = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();

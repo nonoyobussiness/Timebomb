@@ -9,7 +9,7 @@ import { formatDistanceToNow } from 'date-fns';
 
 interface TimebombCardProps {
   timebomb: Timebomb;
-  variant?: 'friends' | 'public';
+  variant?: 'friends' | 'public' | 'search' | 'trending' | 'profile'| 'saved';
 }
 
 const TimebombCard: React.FC<TimebombCardProps> = ({ timebomb, variant = 'public' }) => {

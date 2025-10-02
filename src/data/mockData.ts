@@ -1,27 +1,35 @@
+// in mockData.ts
 import { Timebomb, User } from '@/types';
+
+
 
 export const mockUsers: User[] = [
   {
     id: '1',
     username: 'demo_user',
     email: 'demo@timebomb.app',
+    avatar: '/avatars/demo.png',
   },
   {
     id: '2',
     username: 'alex_crypto',
     email: 'alex@example.com',
+    avatar: '/avatars/alex.png',
   },
   {
     id: '3',
     username: 'sarah_dev',
     email: 'sarah@example.com',
+    avatar: '/avatars/sarah.png',
   },
   {
     id: '4',
     username: 'mike_artist',
     email: 'mike@example.com',
+    avatar: '/avatars/mike.png',
   },
 ];
+
 
 export const mockTimebombs: Timebomb[] = [
   {
@@ -80,4 +88,7 @@ export const getFriendsTimebombs = (userId: string): Timebomb[] => {
 
 export const getPublicTimebombs = (): Timebomb[] => {
   return mockTimebombs.filter(tb => tb.isPublic);
+};
+export const getUserTimebombs = (userId: string): Timebomb[] => {
+  return mockTimebombs.filter(tb => tb.author.id === userId);
 };
