@@ -42,14 +42,20 @@
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tanstack/react-query": "^5.83.0",
     "@types/next": "^8.0.7",
+    "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "cors": "^2.8.5",
     "date-fns": "^3.6.0",
+    "dotenv": "^17.2.3",
     "embla-carousel-react": "^8.6.0",
+    "express": "^5.1.0",
     "framer-motion": "^12.23.21",
     "input-otp": "^1.4.2",
+    "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.462.0",
+    "mysql2": "^3.15.2",
     "next": "^15.5.4",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
@@ -83,5 +89,18 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
     "vite": "^5.4.19"
-  }
+  },
+  "description": "**Timebomb** is a new kind of social platform where content isn’t instant—it’s locked behind time.   You drop a **timebomb post** and set when it explodes: minutes, hours, days… or even years later. Until then, everyone waits. Curiosity builds. Anticipation grows.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nonoyobussiness/Timebomb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nonoyobussiness/Timebomb/issues"
+  },
+  "homepage": "https://github.com/nonoyobussiness/Timebomb#readme"
 }
