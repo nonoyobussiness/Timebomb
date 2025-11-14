@@ -16,20 +16,52 @@ const CreateTimebomb = () => {
   const navigate = useNavigate();
   
   const [currentStep, setCurrentStep] = useState(1);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
   const [isPublic, setIsPublic] = useState(true);
   const [previewText, setPreviewText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const totalSteps = 4;
   const progress = (currentStep / totalSteps) * 100;
+  const [title, setTitle] = useState("");
+  const [preview, setPreview] = useState("");
+  const [content, setContent] = useState("");
+  const [media, setMedia] = useState("");
+  const [visibility, setVisibility] = useState("public");
+  const [delayMinutes, setDelayMinutes] = useState(0);
+  const [uploadedMediaUrl, setUploadedMediaUrl] = useState("");
+
+  const handlePublish = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: user?.id || 1,
+          title,
+          preview,
+          content,
+          media_url: media,
+          visibility,
+          delayMinutes
+        })
+      });
+      const data = await res.json();
+      console.log("Created:", data);
+      alert("Post scheduled successfully!");
+    } catch (err) {
+      console.error("Error creating post:", err);
+      alert("Error creating post");
+    }
+  };
+
+  
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
       setCurrentStep(currentStep + 1);
     }
   };
+
 
   const handlePrev = () => {
     if (currentStep > 1) {
@@ -38,19 +70,42 @@ const CreateTimebomb = () => {
   };
 
   const handleSubmit = async () => {
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    toast({
-      title: "Post Created! 🎉",
-      description: "Your timebomb is now live in the feed.",
+  setIsSubmitting(true);
+
+  try {
+    const res = await fetch("http://localhost:5000/api/posts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: user?.id || 1,
+        title,
+        preview,
+        content,
+        media_url: uploadedMediaUrl || "",
+        visibility,
+        delay: delayMinutes || 0, // 👈 FIXED: match backend field name
+      }),
     });
-    
+
+    const data = await res.json();
+    console.log("Post created:", data);
+
+    if (res.ok) {
+      alert("Post scheduled successfully!");
+      navigate("/");
+    } else {
+      alert(data.error || "Error publishing post");
+    }
+  } catch (err) {
+    console.error("Error submitting post:", err);
+    alert("Error publishing post");
+  } finally {
     setIsSubmitting(false);
-    navigate('/home');
-  };
+  }
+};
+
+
+  
 
   const canProceed = () => {
     switch (currentStep) {

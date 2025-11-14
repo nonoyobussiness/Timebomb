@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEffect } from "react"; 
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -11,13 +12,31 @@ import Friends from './Friends';
 import Gossip from './Gossip';
 import Search from './Search';
 
+
 const Home = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('following');
   
   const friendsTimebombs = getFriendsTimebombs(user?.id || '');
-  const publicTimebombs = getPublicTimebombs();
+
+  const [posts, setPosts] = useState([]);
+  const publicTimebombs = posts;
+
+
+useEffect(() => {
+  const fetchPosts = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/posts");
+      const data = await res.json();
+      setPosts(data);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+    }
+  };
+
+  fetchPosts();
+}, []);
 
   return (
     <div className="min-h-screen bg-background">
