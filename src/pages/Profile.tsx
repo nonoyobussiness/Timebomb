@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/contexts/AuthContext';
+import ProfileComponent from '@/components/Profile';
 import TimebombCard from '@/components/TimebombCard';
 import { getUserTimebombs } from '@/data/mockData';
 import { ArrowLeft, Settings, Timer, Zap, Calendar, Activity, Bookmark, Edit3 } from 'lucide-react';
-
+import { User } from '@/types';
+import { toast } from '@/hooks/use-toast';
+import { API_BASE } from '@/lib/api';
 
 const Profile = () => {
-  const { user, logout } = useAuth();
+  const { user: currentUser, token } = useAuth();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('posts');
+  const [profileUser, setProfileUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   
-  const userTimebombs = getUserTimebombs(user?.id || '');
+  const isOwnProfile = !id || id === 'me' || id === String(currentUser?.id);
+  const viewingUserId = isOwnProfile ? currentUser?.id : id;
+  
+  const userTimebombs = getUserTimebombs(String(viewingUserId || ''));
   const savedTimebombs = userTimebombs.slice(0, 2); // Mock saved posts
   
   // Mock user stats
@@ -26,6 +35,56 @@ const Profile = () => {
     totalComments: 123,
     joinDate: 'March 2024',
     streak: 7
+  };
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (!viewingUserId) {
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        let url = `${API_BASE}/profile/${viewingUserId}`;
+        const headers: HeadersInit = {
+          'Content-Type': 'application/json',
+        };
+
+        // If viewing own profile, use /me endpoint
+        if (isOwnProfile && token) {
+          url = `${API_BASE}/profile/me`;
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const response = await fetch(url, { headers });
+        
+        if (!response.ok) {
+          throw new Error('Failed to load profile');
+        }
+
+        const userData = await response.json();
+        setProfileUser(userData);
+      } catch (error: any) {
+        toast({
+          title: 'Error',
+          description: error.message || 'Failed to load profile',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [viewingUserId, isOwnProfile, token]);
+
+  const handleProfileUpdate = (updatedUser: User) => {
+    setProfileUser(updatedUser);
+    // Also update current user if it's the same user
+    if (isOwnProfile && currentUser?.id === updatedUser.id) {
+      // The AuthContext should handle this, but we can update local state
+    }
   };
 
   return (
@@ -69,28 +128,40 @@ const Profile = () => {
 
       {/* Profile Section */}
       <section className="container mx-auto px-4 py-6 max-w-4xl">
-        <Card className="bg-card border-border mb-6">
-          <CardContent className="p-8">
-            <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
-              {/* Avatar */}
-              <div className="relative">
-                <div className="h-24 w-24 bg-gradient-timebomb rounded-full flex items-center justify-center text-3xl">
-                  {user?.username.slice(0, 2).toUpperCase()}
-                </div>
-                <div className="absolute -bottom-2 -right-2 h-8 w-8 bg-primary rounded-full flex items-center justify-center">
-                  <Timer className="h-4 w-4 text-primary-foreground" />
-                </div>
-              </div>
-              
-              {/* User Info */}
-              <div className="flex-1 text-center md:text-left">
-                <h2 className="text-2xl font-bold text-foreground mb-1">{user?.username}</h2>
-                <p className="text-muted-foreground mb-4">
-                  Timebomb enthusiast • Joined {userStats.joinDate}
-                </p>
-                
-                {/* Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        {isLoading ? (
+          <Card className="bg-card border-border mb-6">
+            <CardContent className="p-8">
+              <div className="text-center text-muted-foreground">Loading profile...</div>
+            </CardContent>
+          </Card>
+        ) : profileUser ? (
+          <div className="mb-6">
+            <ProfileComponent 
+              user={profileUser} 
+              isOwnProfile={isOwnProfile}
+              onUpdate={handleProfileUpdate}
+            />
+          </div>
+        ) : (
+          <Card className="bg-card border-border mb-6">
+            <CardContent className="p-8">
+              <div className="text-center text-muted-foreground">Profile not found</div>
+            </CardContent>
+          </Card>
+        )}
+        
+        {profileUser && (
+          <>
+            {/* Stats Card */}
+            <Card className="bg-card border-border mb-6">
+              <CardContent className="p-8">
+                <div className="text-center">
+                  <p className="text-muted-foreground mb-4">
+                    Timebomb enthusiast • Joined {userStats.joinDate}
+                  </p>
+                  
+                  {/* Stats */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                   <div className="text-center">
                     <div className="flex items-center justify-center space-x-1 mb-1">
                       <Timer className="h-4 w-4 text-primary" />
@@ -125,7 +196,7 @@ const Profile = () => {
                 </div>
                 
                 {/* Badges */}
-                <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                <div className="flex flex-wrap justify-center gap-2">
                   <Badge variant="outline" className="border-primary text-primary">
                     <Timer className="h-3 w-3 mr-1" />
                     Bomb Master
@@ -139,13 +210,12 @@ const Profile = () => {
                     Active Creator
                   </Badge>
                 </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* Content Tabs */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            {/* Content Tabs */}
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-6 bg-surface border border-border">
             <TabsTrigger 
               value="posts" 
@@ -257,7 +327,9 @@ const Profile = () => {
               </div>
             )}
           </TabsContent>
-        </Tabs>
+            </Tabs>
+          </>
+        )}
       </section>
     </div>
   );

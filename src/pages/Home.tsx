@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useEffect } from "react"; 
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
+import { API_BASE } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import TimebombCard from '@/components/TimebombCard';
@@ -18,7 +18,7 @@ const Home = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('following');
   
-  const friendsTimebombs = getFriendsTimebombs(user?.id || '');
+  const friendsTimebombs = getFriendsTimebombs(String(user?.id || ''));
 
   const [posts, setPosts] = useState([]);
   const publicTimebombs = posts;
@@ -27,7 +27,7 @@ const Home = () => {
 useEffect(() => {
   const fetchPosts = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/posts");
+      const res = await fetch(`${API_BASE}/posts`);
       const data = await res.json();
       setPosts(data);
     } catch (err) {

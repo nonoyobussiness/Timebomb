@@ -22,6 +22,7 @@ import BottomNav from "./components/BottomNav";
 
 const queryClient = new QueryClient();
 
+// Route components that need AuthProvider context
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   return user ? <>{children}</> : <Navigate to="/login" replace />;
@@ -32,20 +33,24 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
   return !user ? <>{children}</> : <Navigate to="/home" replace />;
 }
 
-const AppRoutes = () => (
-  <Routes>
-    <Route path="/" element={<Navigate to="/home" replace />} />
-    <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-    <Route path="/landing" element={<PublicRoute><Landing /></PublicRoute>} />
-    <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-    <Route path="/create" element={<ProtectedRoute><CreateTimebomb /></ProtectedRoute>} />
-    <Route path="/messenger" element={<ProtectedRoute><Messenger /></ProtectedRoute>} />
-    <Route path="/profile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-    <Route path="/friends" element={<ProtectedRoute><Friends /></ProtectedRoute>} />
-    <Route path="/gossip" element={<ProtectedRoute><Gossip /></ProtectedRoute>} />
-    <Route path="*" element={<NotFound />} />
-  </Routes>
-);
+// AppRoutes must be inside AuthProvider, so it's defined here
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/home" replace />} />
+      <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+      <Route path="/landing" element={<PublicRoute><Landing /></PublicRoute>} />
+      <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+      <Route path="/create" element={<ProtectedRoute><CreateTimebomb /></ProtectedRoute>} />
+      <Route path="/messenger" element={<ProtectedRoute><Messenger /></ProtectedRoute>} />
+      <Route path="/profile/me" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/profile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/friends" element={<ProtectedRoute><Friends /></ProtectedRoute>} />
+      <Route path="/gossip" element={<ProtectedRoute><Gossip /></ProtectedRoute>} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
 
 function Layout() {
   const location = useLocation();

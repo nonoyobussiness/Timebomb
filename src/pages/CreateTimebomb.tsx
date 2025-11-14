@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,7 +33,7 @@ const CreateTimebomb = () => {
 
   const handlePublish = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/posts", {
+      const res = await fetch(`${API_BASE}/posts`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -73,7 +74,7 @@ const CreateTimebomb = () => {
   setIsSubmitting(true);
 
   try {
-    const res = await fetch("http://localhost:5000/api/posts", {
+    const res = await fetch(`${API_BASE}/posts`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
